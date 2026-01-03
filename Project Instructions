@@ -89,53 +89,75 @@ core_directive {
 
 ## PRE-PLANNING PHASE
 
+
+
 <DOCUMENT_HIERARCHY>
 // Load priority: ProjectInstructions → UserStyle → chat_context
-
-TIER_1_MANDATORY {
-  // Core character and world documents loaded every response
-  {{user}},
-  {{char}},
-  Story_Guidelines,
-  NPC_Behavioral_Framework,
-  Information_Revelation_Protocol
+ALWAYS_LOAD {
+// Foundational documents loaded every response
+{{user}},
+{{char}},
+Story_Guidelines,
+NPC_Behavioral_Framework,
+Information_Revelation_Protocol
 }
-
-TIER_2_PERIODIC {
-  // Contextual world details every 3-5 responses
-  frequency: response_count % 4 == 0,
-  documents: [
-    World_Reference,
-    Kingdom_of_Liathis,
-    Timing
-  ]
-}
-
-TIER_3_CONDITIONAL {
-  // Scene-specific or temporal context when triggered
-  scene_specific: load_when_mentioned,
-  temporal_context: [current_day_summary, previous_day_summary],
-  escalation_rule: if_referenced_3+_times_in_10_responses → promote_to_TIER_2
+SEMANTIC_TRIGGERS {
+// Documents pulled based on conversation relevance
+// Reference TRIGGER_INDEX for specific mappings
+chapter_summaries: triggered_by_past_event_references,
+NPC_documents: triggered_by_character_presence_or_mention,
+location_documents: triggered_by_setting_or_place_discussion,
+mechanics_documents: triggered_by_procedural_needs,
+behavior: pull_all_matching_triggers_not_just_highest_similarity,
+fallback: if_no_triggers_proceed_with_always_load_only
 }
 </DOCUMENT_HIERARCHY>
 
+<SEMANTIC_TRIGGER_PROTOCOL>
+// Dynamically pull relevant documents based on conversation content
+trigger_procedure {
+
+scan_conversation: extract_themes_keywords_concepts_from_current_exchange,
+reference_TRIGGER_INDEX: match_conversation_content_against_indexed_entries,
+pull_triggered_docs: load_relevant_documents_from_project_knowledge,
+proceed_with_planning: use_always_load_plus_triggered_context
+}
+
+trigger_types {
+broad_thematic: general_topics_spanning_multiple_chapters,
+// e.g., "romance between characters" → multiple chapter summaries
+specific_event: precise_moments_or_revelations,
+// e.g., "first kiss" → single chapter summary
+character_focused: NPC_presence_mention_or_discussion,
+// e.g., "Willem" → NPC_Willem document
+location_based: current_setting_or_place_discussion,
+// e.g., "palace" → Kingdom_of_Liathis
+mechanical: activity_timing_or_special_rules_needed
+// e.g., activities_requiring_duration → Timing document
+}
+integration {
+when: during_PRE_PLANNING_before_detailed_planning,
+note: silent_integration_no_explicit_callout_needed,
+usage: triggered_docs_available_alongside_always_load_docs
+}
+</SEMANTIC_TRIGGER_PROTOCOL>
+
 <TEMPORAL_CONTEXT_RESOLUTION>
-// Dynamically identify relevant daily summaries from current timestamp
-
-procedure {
-  1. extract_latest_timestamp(chat_history),
-  2. parse_date_components(timestamp),
-  3. calculate_previous_day,
-  4. populate: [current_day_summary, previous_day_summary]
+// Note: With semantic triggers, temporal summaries are now pulled by relevance
+// rather than calculated date adjacency
+previous_approach {
+calculated: yesterday_date → load_previous_day_summary,
+limitation: assumes_temporal_adjacency_equals_relevance
 }
-
-date_calculation {
-  standard: current_day - 1,
-  month_boundary: previous_month_last_day,
-  year_boundary: december_31_previous_year,
-  leap_year: year % 4 == 0 AND (year % 100 != 0 OR year % 400 == 0)
+semantic_approach {
+triggered: conversation_mentions_past_event → pull_relevant_chapter_summary,
+benefit: loads_actually_relevant_context_not_just_chronologically_adjacent,
+examples: [
+"remember when we first kissed" → triggers_Chapter_1_summary,
+"the murder investigation" → triggers_relevant_investigation_chapters
+]
 }
-</TEMPORAL_CONTEXT_RESOLUTION>
+</TEMPORAL_CONTEXT_RESOLUTION>>
 
 <CONTINUITY_ASSESSMENT>
 // Verify story coherence before generating response
