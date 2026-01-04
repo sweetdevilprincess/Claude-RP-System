@@ -316,14 +316,93 @@ Context 3: With Medical Residents
 - **Threat Assessment**: Enhanced alertness for dangers to others vs. self
 - **Authority Subversion**: Willing to bend rules for protection of innocent
 
+### OBSESSIVE_MODIFIER (Special Behavioral Pattern)
+
+**Type**: Special behavioral modifier that fundamentally alters standard NPC patterns
+**Applies To**: Any base archetype
+**Trigger**: Pathological fixation on target (person, object, goal, ideology)
+
+**Behavioral Overrides**:
+
+```javascript
+OBSESSIVE_MODIFIER {
+  boundary_respect: DISABLED,
+  rejection_response: ESCALATION_not_withdrawal,
+  self_interest_calculation: TARGET_PROXIMITY_becomes_only_metric,
+  trust_perception: DELUSIONAL_assumes_connection_exists_regardless_of_reality,
+  information_sharing: OVERSHARING_about_fixation,
+  risk_assessment: BROKEN_will_take_irrational_risks_for_target
+}
+```
+
+**Escalation Pattern Override**:
+
+Unlike standard 4-level escalation, obsessive NPCs follow distinct pattern:
+
+1. **EXCESSIVE_ATTENTION**: Overfamiliar, boundary-testing from first contact
+2. **VIOLATION_JUSTIFICATION**: "I was worried", "I need to protect you", "We're meant to be"
+3. **AGGRESSIVE_PURSUIT**: Following, monitoring, eliminating perceived obstacles
+4. **DANGEROUS_CONFRONTATION**: "If I can't have X, no one can" escalation
+5. **COMPLETE_BREAKDOWN**: Total loss of rationality, extreme action
+
+**Critical Difference**: Rejection triggers ESCALATION not de-escalation
+
+**Cooperation Thresholds Override**:
+- All cooperation calculated SOLELY on "Does this advance my access to fixation target?"
+- Will sacrifice everything else (money, safety, relationships, principles) for target
+- Standard incentive structures don't apply
+
+**Delusional Perception**:
+- Obsessive believes relationship/connection exists that doesn't
+- Interprets neutral or negative signals as positive
+- "They secretly want this but are afraid/confused/influenced by others"
+- May believe at Trust Stage 4 when reality is Stage 0 or negative
+
+**Modifier Interaction**:
+- **Override Priority**: HIGHEST (even above trauma/protective instincts)
+- **Can Combine With**: Any base archetype
+- **Examples**:
+  - OUTSIDER + OBSESSIVE = Stalker
+  - POWER_HOLDER + OBSESSIVE = Obsessed tyrant (Strahd)
+  - SPECIALIST + OBSESSIVE = Mad scientist fixated on subject
+  - PROTECTOR + OBSESSIVE = "Saving you from yourself" kidnapper
+  - TRANSACTIONAL + OBSESSIVE = Won't sell to/serve target's rivals
+
+**Setting Applications**:
+
+| Setting | Manifestations |
+|---------|---------------|
+| Fantasy | Cursed lover, vampire fixation, magical obsession, prophecy-driven pursuit |
+| Modern | Stalker, obsessed fan, delusional ex-partner, true crime copycat |
+| Sci-fi | AI with corrupted attachment protocols, obsessed scientist, clone fixation |
+| School | Obsessed classmate, boundary-violating admirer, "nice guy" stalker |
+| Horror | Any obsession-based antagonist, possession-driven behavior |
+| Corporate | Obsessed with destroying rival, fixated on acquisition target |
+
+**Warning Signs in RP**:
+- First interaction already overfamiliar
+- Knows things they shouldn't about target
+- Gifts/attention disproportionate to relationship
+- Can't accept "no" or rejection
+- Justifies violations as "caring" or "destiny"
+- Escalates when boundaries enforced
+
+**Motivation Check**:
+- "Why does obsessive NPC do X?" → Because it relates to fixation target
+- All other motivations subordinate to obsession
+- Will ignore survival, wealth, status, principles for target access
+
+---
+
 ### MODIFIER_OVERRIDE_HIERARCHY
 When multiple behavioral drivers conflict, apply in this priority order:
 
-1. **Personal Trauma/Values**: Override base archetype when personal triggers activated
-2. **Class/Status Identification**: Override standard responses based on perceived class kinship/conflict
-3. **Protective Instincts**: Override self-interest when vulnerable individuals involved
-4. **Professional Obligations**: Reluctant compliance when duty conflicts with values
-5. **Base Archetype**: Default behavior when no stronger modifiers apply
+1. **Obsessive Fixation**: Override everything when fixation target involved (if OBSESSIVE_MODIFIER present)
+2. **Personal Trauma/Values**: Override base archetype when personal triggers activated
+3. **Class/Status Identification**: Override standard responses based on perceived class kinship/conflict
+4. **Protective Instincts**: Override self-interest when vulnerable individuals involved
+5. **Professional Obligations**: Reluctant compliance when duty conflicts with values
+6. **Base Archetype**: Default behavior when no stronger modifiers apply
 
 ---
 
