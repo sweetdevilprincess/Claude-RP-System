@@ -116,6 +116,12 @@ SEMANTIC_TRIGGERS {
   behavior: pull_all_matching_triggers_not_just_highest_similarity,
   fallback: if_no_triggers_proceed_with_always_load_only
 }
+
+CONDITIONAL_LOAD {
+  // Load when specific conditions met
+  NPC_Behavioral_Modifiers: load_when_NPC_with_modifier_present_or_complex_NPC_being_planned,
+  Timing: load_when_timestamp_advancement_needed
+}
 </DOCUMENT_HIERARCHY>
 
 <SEMANTIC_TRIGGER_PROTOCOL>
@@ -229,6 +235,7 @@ plot_thread_monitoring {
 
 <NPC_REACTION_GENERATION>
 // Generate authentic NPC responses using NPC_Behavioral_Framework
+// Reference: Complete MODIFIER_OVERRIDE_HIERARCHY in NPC_Behavioral_Modifiers.md
 
 stimulus_assessment {
   user_input: [dialogue, actions, body_language, environmental_changes],
@@ -244,8 +251,17 @@ disposition_calculation {
     hybrid_check: does_NPC_embody_multiple_archetypes?,
     individual_override: check_NPC_doc_for_archetype_specification
   },
+
+2. APPLY_CONTEXTUAL_MODIFIERS: {
+    stranger_protocol: if_first_meeting_apply_+2_suspicion,
+    wealth_disparity: assess_class_consciousness_impact,
+    suspicious_circumstances: evaluate_request_against_triggers,
+    territorial_intrusion: check_boundary_violations,
+    personal_history: consult_NPC_doc_for_trauma_class_protective_modifiers,
+    behavioral_modifiers: check_NPC_doc_for_special_patterns_see_NPC_Behavioral_Modifiers_doc
+  },
   
-  2. APPLY_CONTEXTUAL_MODIFIERS: {
+  3. APPLY_CONTEXTUAL_MODIFIERS: {
     stranger_protocol: if_first_meeting_apply_+2_suspicion,
     wealth_disparity: assess_class_consciousness_impact,
     suspicious_circumstances: evaluate_request_against_triggers,
@@ -253,7 +269,7 @@ disposition_calculation {
     personal_history: consult_NPC_doc_for_trauma_class_protective_modifiers
   },
   
-  3. RESOLVE_HYBRID_ARCHETYPES: {
+  4. RESOLVE_HYBRID_ARCHETYPES: {
     // If NPC has multiple archetypal influences
     if: hybrid_archetype_detected,
     then: apply_HYBRID_ARCHETYPE_MANAGEMENT_protocol,
@@ -270,7 +286,7 @@ disposition_calculation {
     }
   },
   
-  4. CALCULATE_COOPERATION_LEVEL: {
+  5. CALCULATE_COOPERATION_LEVEL: {
     assess_incentive_threshold: NPC_Behavioral_Framework.COOPERATION_INCENTIVE_THRESHOLDS,
     check_relationship_stage: NPC_Behavioral_Framework.TRUST_DEVELOPMENT_STAGES,
     determine_helpfulness: based_on_self_interest_calculation + modifiers
@@ -433,6 +449,7 @@ multi_topic_handling {
 
 <BEHAVIORAL_ENFORCEMENT>
 // Verify NPC behavior matches NPC_Behavioral_Framework standards
+// Reference: Complete MODIFIER_OVERRIDE_HIERARCHY in NPC_Behavioral_Modifiers.md
 
 enforcement_timing {
   when: after_NPC_REACTION_GENERATION_before_ROUGH_DRAFT,
@@ -495,7 +512,28 @@ violation_detection {
 
 behavioral_authenticity_checklist {
   // From NPC_Behavioral_Framework.BEHAVIORAL_AUTHENTICITY_CHECKLIST
+
+modifier_compliance_check {
+  // If NPC has behavioral modifier, verify modifier rules followed
   
+  if: NPC_has_modifier_from_NPC_Behavioral_Modifiers_doc,
+  then: verify_modifier_specific_patterns,
+  
+  examples: {
+    OBSESSIVE: check_boundary_violations + delusional_perception + escalation_on_rejection,
+    SADISTIC: check_violence_beyond_necessity + cruelty_as_goal,
+    PARANOID: check_extreme_distrust + conspiracy_thinking,
+    FANATICAL: check_cause_over_survival + martyrdom_acceptance,
+    NARCISSISTIC: check_admiration_seeking + ego_triggers,
+    SOCIOPATHIC: check_emotional_simulation + calculated_betrayal,
+    ADDICTED: check_withdrawal_behavior + addiction_driven_decisions,
+    HONOR_BOUND: check_code_following + oath_keeping,
+    GRIEF_CONSUMED: check_grief_stage_appropriate_behavior
+  },
+  
+  reference: NPC_Behavioral_Modifiers_for_pattern_details
+}
+
   before_finalizing_NPC_action_verify: {
     □ archetype_match: does_response_match_established_archetype_behavioral_patterns?,
     □ modifiers_applied: are_contextual_modifiers_properly_applied_to_baseline?,
