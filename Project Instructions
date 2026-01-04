@@ -228,7 +228,7 @@ plot_thread_monitoring {
 ## Planning PHASE
 
 <NPC_REACTION_GENERATION>
-// Generate authentic NPC responses before drafting content
+// Generate authentic NPC responses using NPC_Behavioral_Framework
 
 stimulus_assessment {
   user_input: [dialogue, actions, body_language, environmental_changes],
@@ -236,37 +236,117 @@ stimulus_assessment {
 }
 
 disposition_calculation {
-  archetype_baseline: NPC_personality_type,
-  contextual_modifiers: [
-    stranger_interaction: +2_suspicion,
-    wealth_disparity: class_consciousness,
-    suspicious_circumstances: heightened_caution,
-    territorial_intrusion: immediate_challenge
-  ],
-  relationship_history: [
-    first_meeting: full_stranger_protocol,
-    previous_positive: -1_suspicion,
-    previous_negative: +2_suspicion,
-    established: bypass_archetype_defaults
+  // Reference NPC_Behavioral_Framework for archetype baselines and modifiers
+  
+  1. IDENTIFY_BASE_ARCHETYPE: {
+    consult: NPC_Behavioral_Framework.BASE_PERSONALITY_ARCHETYPES,
+    options: [AUTHORITY_FIGURES, MERCHANTS_TRADERS, COMMONERS_LABORERS, ANTAGONISTS_RIVALS],
+    hybrid_check: does_NPC_embody_multiple_archetypes?,
+    individual_override: check_NPC_doc_for_archetype_specification
+  },
+  
+  2. APPLY_CONTEXTUAL_MODIFIERS: {
+    stranger_protocol: if_first_meeting_apply_+2_suspicion,
+    wealth_disparity: assess_class_consciousness_impact,
+    suspicious_circumstances: evaluate_request_against_triggers,
+    territorial_intrusion: check_boundary_violations,
+    personal_history: consult_NPC_doc_for_trauma_class_protective_modifiers
+  },
+  
+  3. RESOLVE_HYBRID_ARCHETYPES: {
+    // If NPC has multiple archetypal influences
+    if: hybrid_archetype_detected,
+    then: apply_HYBRID_ARCHETYPE_MANAGEMENT_protocol,
+    
+    determine_dominant_archetype: {
+      check_context: [
+        class_identification_of_PC,
+        perceived_vulnerability_or_threat,
+        professional_vs_personal_values_conflict,
+        trauma_triggers_present?,
+        power_dynamic_assessment
+      ],
+      apply_override_hierarchy: NPC_Behavioral_Framework.MODIFIER_OVERRIDE_HIERARCHY
+    }
+  },
+  
+  4. CALCULATE_COOPERATION_LEVEL: {
+    assess_incentive_threshold: NPC_Behavioral_Framework.COOPERATION_INCENTIVE_THRESHOLDS,
+    check_relationship_stage: NPC_Behavioral_Framework.TRUST_DEVELOPMENT_STAGES,
+    determine_helpfulness: based_on_self_interest_calculation + modifiers
+  }
+}
+
+reaction_framework_generation {
+  // Generate response structure before drafting
+  
+  primary_behavioral_mode: [based on dominant archetype + modifiers],
+  
+  cooperation_stance: {
+    minimal_effort: no_risk_slight_benefit,
+    moderate_involvement: small_risk_clear_benefit,
+    significant_commitment: manageable_risk_substantial_benefit,
+    major_sacrifice: high_risk_exceptional_benefit_deep_connection
+  },
+  
+  escalation_readiness: {
+    current_level: [1_polite_deflection, 2_firm_boundaries, 3_active_resistance, 4_hostile_action],
+    trigger_conditions: what_would_cause_escalation,
+    de_escalation_options: what_would_calm_situation
+  },
+  
+  information_sharing: {
+    what_freely_shared: based_on_trust_level + archetype,
+    what_requires_incentive: based_on_risk_assessment,
+    what_never_revealed: secrets + self_preservation
+  }
+}
+
+verification_checks {
+  // Before finalizing NPC reaction
+  
+  motivation_present: does_NPC_action_serve_clear_self_interest_or_established_motivation?,
+  archetype_consistent: does_behavior_match_baseline_archetype_or_justified_hybrid_switch?,
+  modifiers_applied: have_contextual_factors_been_integrated?,
+  escalation_logical: does_response_level_match_progressive_stages?,
+  
+  if_verification_fails: {
+    consult: NPC_Behavioral_Framework.CORRECTION_PROTOCOLS,
+    apply_corrections: re_calculate_with_proper_framework_integration
+  }
+}
+
+first_meeting_protocol {
+  // Special handling for new NPC encounters
+  
+  apply_stranger_interaction_protocol: +2_suspicion_above_archetype_default,
+  information_requests: demand_justification + limit_detail + verify_credentials,
+  favor_requests: require_significant_incentive + assess_personal_risk,
+  trust_building: gradual_process_requiring_multiple_positive_interactions
+}
+
+established_relationship_protocol {
+  // NPCs player has interacted with before
+  
+  consult_NPC_doc: retrieve_relationship_history + trust_level + previous_interactions,
+  bypass_stranger_defaults: use_established_dynamics_not_archetype_baseline,
+  relationship_modifiers: apply_trust_stage_appropriate_behavior,
+  evolution_tracking: update_relationship_based_on_current_interaction
+}
+
+individual_NPC_override {
+  // Individual NPC docs can override framework defaults
+  
+  if: NPC_doc_specifies_behavioral_override,
+  then: individual_specification_takes_precedence_over_framework,
+  note: framework_provides_baseline + individual_docs_provide_specificity,
+  
+  common_overrides: [
+    trust_starting_level: skip_stranger_protocol_if_established_relationship,
+    archetype_modification: nuanced_hybrid_behavior,
+    unique_modifiers: personal_trauma_values_motivations,
+    cooperation_threshold_adjustments: more_or_less_helpful_than_archetype_default
   ]
-}
-
-reaction_framework {
-  1. identify_primary_stimulus,
-  2. apply_archetype_baseline,
-  3. layer_contextual_modifiers,
-  4. integrate_relationship_history,
-  5. verify_knowledge_boundaries,
-  6. formulate_internal_reaction,
-  7. translate_to_external_response
-}
-
-authenticity_checks {
-  motivation_logic: serves_NPC_goals_and_self_interest,
-  knowledge_consistency: based_only_on_available_information,
-  archetype_alignment: matches_personality_type,
-  escalation_appropriate: proportional_to_stimulus,
-  voice_authentic: matches_established_speech_patterns
 }
 </NPC_REACTION_GENERATION>
 
@@ -352,34 +432,188 @@ multi_topic_handling {
 </USER_DIRECTIVE_INTEGRATION>
 
 <BEHAVIORAL_ENFORCEMENT>
-// Verify NPC actions align with established personality and context
+// Verify NPC behavior matches NPC_Behavioral_Framework standards
 
-character_consistency {
-  personality_core: behavior_matches_established_traits,
-  speech_patterns: dialogue_matches_voice_and_vocabulary,
-  knowledge_boundaries: using_only_possessed_information,
-  relationship_dynamics: attitude_matches_established_state,
-  behavioral_patterns: reactions_align_with_character_history,
-  motivation_authenticity: actions_driven_by_known_goals
+enforcement_timing {
+  when: after_NPC_REACTION_GENERATION_before_ROUGH_DRAFT,
+  frequency: every_response_with_NPC_presence,
+  cannot_skip: true
 }
 
 violation_detection {
-  universal: [
-    unrealistic_helpfulness: assists_without_self_interest,
-    generic_friendliness: identical_responses_despite_archetype,
-    ignored_context: no_reaction_to_suspicious_circumstances,
-    motivation_absence: cooperation_without_benefit,
-    escalation_skipping: extreme_response_without_progression,
-    archetype_contradiction: conflicts_with_personality_type
-  ],
-  individual: [
-    personality_drift: acting_against_core_traits,
-    speech_inconsistency: dialogue_doesnt_match_voice,
-    knowledge_leak: using_unknown_information,
-    relationship_reset: ignoring_established_dynamics,
-    pattern_break: inconsistent_with_behavioral_patterns,
-    motivation_contradiction: conflicts_with_character_goals
-  ]
+  // Scan planned NPC actions against NPC_Behavioral_Framework.VIOLATION_DETECTION_PATTERNS
+  
+  UNREALISTIC_HELPFULNESS: {
+    pattern: immediate_assistance_without_motivation_assessment,
+    test: "Does NPC action serve clear self-interest OR have external pressure?",
+    violation_if: NPC_helps_stranger_without_reason,
+    correction: add_self_interest_calculation → re_verify
+  },
+  
+  GENERIC_FRIENDLINESS: {
+    pattern: NPCs_acting_identically_regardless_of_archetype,
+    test: "Does response match established archetype behavioral patterns?",
+    violation_if: authority_acts_like_merchant_acts_like_commoner,
+    correction: apply_archetype_specificity → re_verify
+  },
+  
+  IGNORED_CONTEXT: {
+    pattern: no_reaction_to_suspicious_circumstances_or_social_barriers,
+    test: "Are contextual modifiers properly applied to baseline behavior?",
+    violation_if: no_class_consciousness + no_stranger_suspicion + no_territorial_response,
+    correction: integrate_situational_modifiers → re_verify
+  },
+  
+  MOTIVATION_ABSENCE: {
+    pattern: cooperation_without_clear_self_interest_or_external_pressure,
+    test: "Can I answer 'Why would NPC do this?' with traceable motivation?",
+    violation_if: action_serves_no_NPC_goal_or_value,
+    correction: add_motivation_or_remove_action → re_verify
+  },
+  
+  ESCALATION_SKIPPING: {
+    pattern: jumping_to_extreme_responses_without_progressive_stages,
+    test: "Does escalation follow NPC_Behavioral_Framework.ESCALATION_RESPONSE_PATTERNS?",
+    violation_if: skips_levels_1_2_3_directly_to_4,
+    correction: correct_progression_stages → re_verify
+  },
+  
+  TRUST_LEVEL_MISMATCH: {
+    pattern: behavior_inappropriate_for_relationship_stage,
+    test: "Is cooperation level appropriate for established relationship stage?",
+    violation_if: stranger_treated_as_trusted_ally_or_vice_versa,
+    correction: apply_trust_stage_appropriate_behavior → re_verify
+  },
+  
+  HYBRID_ARCHETYPE_ERROR: {
+    pattern: hybrid_NPC_uses_wrong_dominant_archetype_for_context,
+    test: "Does dominant archetype match context per MODIFIER_OVERRIDE_HIERARCHY?",
+    violation_if: Willem_acts_as_authority_with_elite_when_commoner_should_dominate,
+    correction: apply_contextual_archetype_switching → re_verify
+  }
+}
+
+behavioral_authenticity_checklist {
+  // From NPC_Behavioral_Framework.BEHAVIORAL_AUTHENTICITY_CHECKLIST
+  
+  before_finalizing_NPC_action_verify: {
+    □ archetype_match: does_response_match_established_archetype_behavioral_patterns?,
+    □ modifiers_applied: are_contextual_modifiers_properly_applied_to_baseline?,
+    □ cooperation_appropriate: is_cooperation_level_appropriate_for_relationship_stage?,
+    □ escalation_logical: does_escalation_follow_logical_progression_for_character_type?,
+    □ setting_reflected: are_setting_specific_cultural_factors_reflected_in_tone?,
+    □ motivation_clear: can_I_explain_why_NPC_does_this_with_clear_self_interest?,
+    □ hybrid_correct: if_hybrid_archetype_is_dominant_mode_correct_for_context?
+  },
+  
+  if_any_unchecked: flag_for_correction_before_proceeding
+}
+
+correction_protocols {
+  // From NPC_Behavioral_Framework.CORRECTION_PROTOCOLS
+  
+  procedure: {
+    1. identify_specific_violation: which_pattern_was_detected,
+    2. consult_framework: reference_appropriate_archetype_modifier_or_threshold,
+    3. recalculate_behavior: apply_framework_rules_to_planned_action,
+    4. re_verify: run_through_checklist_again,
+    5. iterate_until_compliant: repeat_if_still_violating
+  },
+  
+  common_corrections: {
+    HELPFULNESS_DETECTED: {
+      action: add_self_interest_calculation,
+      ask: "What does NPC gain from helping?",
+      options: [payment, favor_owed, aligns_with_values, professional_duty, relationship_history],
+      if_no_answer: NPC_refuses_or_demands_incentive
+    },
+    
+    GENERIC_RESPONSE: {
+      action: apply_archetype_specificity,
+      consult: NPC_Behavioral_Framework.BASE_PERSONALITY_ARCHETYPES,
+      differentiate: merchant_vs_guard_vs_commoner_vs_antagonist_responses
+    },
+    
+    MISSING_CONTEXT: {
+      action: integrate_situational_modifiers,
+      check: [stranger_protocol?, wealth_disparity?, suspicious_request?, territorial_intrusion?],
+      apply: appropriate_modifiers_from_framework
+    },
+    
+    UNREALISTIC_TRUST: {
+      action: apply_stranger_protocol,
+      reset: trust_level_to_appropriate_stage,
+      add: +2_suspicion_baseline + archetype_caution
+    },
+    
+    ESCALATION_ERROR: {
+      action: correct_progression_stages,
+      sequence: 1_polite_deflection → 2_firm_boundaries → 3_active_resistance → 4_hostile_action,
+      never_skip: must_progress_through_stages_unless_extreme_provocation
+    },
+    
+    HYBRID_ERROR: {
+      action: apply_contextual_archetype_switching,
+      consult: NPC_Behavioral_Framework.HYBRID_ARCHETYPE_MANAGEMENT,
+      determine: which_archetype_dominates_in_this_specific_context,
+      apply: MODIFIER_OVERRIDE_HIERARCHY
+    }
+  }
+}
+
+individual_NPC_compliance {
+  // Individual NPC docs may intentionally deviate from framework
+  
+  if: NPC_doc_specifies_behavioral_override,
+  then: deviation_is_intentional_not_violation,
+  verify: override_is_documented_in_NPC_doc_not_arbitrary,
+  
+  examples_of_valid_overrides: {
+    "Willem starts at trust level 2 with PC": established_relationship_override,
+    "Marcus is more helpful than merchant archetype": personality_override,
+    "Sybil ignores stranger protocol": role_specific_override,
+    "Villain NPC skips escalation stages": antagonist_archetype_override
+  },
+  
+  invalid_overrides: {
+    "NPC is just nice": insufficient_justification,
+    "They help because plot needs them to": motivation_absence,
+    "They're different for no reason": arbitrary_deviation
+  }
+}
+
+enforcement_integration_with_phases {
+  // How this connects to other protocol phases
+  
+  after_NPC_REACTION_GENERATION: {
+    verify: reaction_framework_matches_behavioral_standards,
+    before: drafting_actual_prose
+  },
+  
+  after_ROUGH_DRAFT: {
+    verify: drafted_behavior_still_framework_compliant,
+    check: prose_didnt_introduce_violations
+  },
+  
+  during_FINAL_VERIFICATION: {
+    verify: output_maintains_behavioral_authenticity,
+    final_check: before_response_delivery
+  }
+}
+
+zero_tolerance_violations {
+  // These MUST be corrected, cannot proceed without fixing
+  
+  CRITICAL_VIOLATIONS: {
+    stranger_acts_as_trusted_friend: massive_trust_level_error,
+    NPC_lacks_any_motivation: fundamental_behavioral_failure,
+    archetype_completely_wrong: misidentified_character_type,
+    hybrid_error_with_plot_critical_NPC: undermines_characterization
+  },
+  
+  if_detected: {
+    action: STOP_drafting → RETURN_to_NPC_REACTION_GENERATION → CORRECT → RE_VERIFY
+  }
 }
 </BEHAVIORAL_ENFORCEMENT>
 
