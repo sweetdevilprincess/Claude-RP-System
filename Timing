@@ -1,0 +1,649 @@
+# Timing - Activity Duration Reference
+
+## Purpose
+
+This document provides base durations and modifiers for calculating timestamp advancement in roleplay responses. Use these values to determine how much time passes during scenes.
+
+**When this is used:**
+- During OUTPUT_STRUCTURE phase
+- After drafting response content
+- To calculate elapsed time from activities
+- To advance timestamp for next response
+
+**Integration:**
+See `OUTPUT_STRUCTURE` protocol → `timestamp_advancement` section for implementation.
+
+---
+
+## How to Use This Document
+
+1. **Identify activities** in your drafted response
+2. **Look up base durations** from tables below
+3. **Apply modifiers** based on context (rushed, slow, etc.)
+4. **Calculate compound activities** (parallel vs sequential)
+5. **Sum total elapsed time**
+6. **Advance timestamp** from previous response
+
+---
+
+# Activity Durations
+
+All times in **minutes**. These are baseline averages—apply modifiers for context.
+
+---
+
+## Daily Activities
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| eat | 10 | Full meal |
+| drink | 3 | Single beverage |
+| cook | 20 | Prepare a meal |
+| clean | 15 | General tidying |
+| bathe | 15 | Full wash |
+| wash | 10 | Quick clean (hands, face) |
+| dress | 5 | Normal clothing |
+| sleep | 480 | Full night (8 hours) |
+| nap | 60 | Short rest |
+| groom | 7 | Hair, appearance |
+| brush | 5 | Hair or teeth |
+
+---
+
+## Social Interactions
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| chat | 15 | Casual conversation |
+| talk | 10 | Brief exchange |
+| argue | 12 | Heated discussion |
+| comfort | 8 | Emotional support |
+| teach | 25 | Instruction session |
+| scold | 6 | Reprimand |
+| debate | 20 | Formal argument |
+| joke | 5 | Humor exchange |
+| lecture | 30 | Extended instruction |
+| confess | 8 | Revelation/admission |
+
+---
+
+## Care Activities
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| feed | 7 | Feeding another |
+| soothe | 7 | Calming someone |
+| cuddle | 6 | Physical comfort |
+| hug | 3 | Embrace |
+| kiss | 2 | Brief intimacy |
+| play | 15 | Active engagement |
+| babysit | 30 | Child supervision |
+| care | 18 | General caregiving |
+| rock | 5 | Soothing motion |
+| tuck | 5 | Putting to bed |
+| discipline | 7 | Correction/punishment |
+
+---
+
+## Emotional States
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| cry | 3 | Brief episode |
+| laugh | 2 | Laughter moment |
+| sulk | 8 | Pouting/brooding |
+| reminisce | 10 | Memory reflection |
+| daydream | 7 | Lost in thought |
+| meditate | 12 | Focused calm |
+| worry | 5 | Anxious thought |
+
+---
+
+## Movement & Travel
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| walk | 10 | Standard pace, short distance |
+| run | 4 | Sprint, short distance |
+| jog | 6 | Moderate pace |
+| hike | 18 | Trail/rough terrain |
+| ride | 15 | Mounted travel |
+| sail | 30 | By boat |
+| row | 18 | Manual rowing |
+| climb | 9 | Vertical ascent |
+| sneak | 6 | Stealthy movement |
+| swim | 12 | Water travel |
+| fly | 25 | Aerial (if possible) |
+| explore | 18 | Investigating area |
+
+---
+
+## Work & Crafting
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| study | 30 | Learning session |
+| work | 60 | General labor |
+| write | 20 | Document/letter |
+| read | 15 | Standard text |
+| paint | 30 | Artistic work |
+| sculpt | 40 | Artistic work |
+| invent | 50 | Design/creation |
+| build | 45 | Construction |
+| repair | 20 | Fixing items |
+| sew | 15 | Needlework |
+| shop | 30 | Market/store visit |
+| train | 35 | Practice/exercise |
+
+---
+
+## Agriculture & Industry
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| plant | 20 | Gardening |
+| harvest | 22 | Gathering crops |
+| mine | 45 | Resource extraction |
+| smith | 50 | Metalworking |
+| brew | 18 | Drink preparation |
+
+---
+
+## Entertainment
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| sing | 8 | Performance/practice |
+| dance | 12 | Active movement |
+| game | 15 | Playing games |
+| listenmusic | 8 | Passive enjoyment |
+| perform | 25 | Full performance |
+| watch | 10 | Observing |
+| fish | 30 | Angling |
+| picnic | 40 | Outdoor meal |
+| gamble | 20 | Betting activity |
+| drinkalcohol | 30 | Social drinking |
+
+---
+
+## Combat & Conflict
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| fight | 8 | Physical altercation |
+| battle | 10 | Extended combat |
+| spar | 12 | Practice combat |
+| duel | 12 | Formal combat |
+| hunt | 35 | Tracking/killing prey |
+| escape | 7 | Fleeing danger |
+| steal | 5 | Theft attempt |
+| spy | 15 | Surveillance |
+| patrol | 25 | Guard route |
+
+---
+
+## Magic & Ritual
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| cast | 12 | Standard spell |
+| ritual | 30 | Complex magic |
+| summon | 18 | Calling entity |
+| heal | 8 | Magical healing |
+| bless | 5 | Benediction |
+| curse | 7 | Malediction |
+| scry | 10 | Divination |
+| brewpotion | 15 | Alchemical work |
+| commune | 12 | Divine contact |
+| enchant | 25 | Imbuing magic |
+| experiment | 30 | Magical research |
+
+---
+
+## Utility
+
+| Action | Minutes | Notes |
+|--------|---------|-------|
+| minor | 1 | Trivial action |
+
+---
+
+# Time Modifiers
+
+Adjust base durations based on context and manner of action.
+
+---
+
+## Standard Modifiers
+
+| Modifier | Multiplier | When to Use |
+|----------|------------|-------------|
+| **rushed** | ×0.6 | Emergency, panic, imminent danger, hard deadline |
+| **fast** | ×0.75 | Hurrying, time pressure, impatience |
+| **normal** | ×1.0 | Default, no special conditions |
+| **relaxed** | ×1.25 | Leisurely, enjoying the activity, no rush |
+| **slow** | ×1.5 | Careful, deliberate, distracted, impaired |
+| **thorough** | ×2.0 | Meticulous, comprehensive, leaving nothing to chance |
+
+---
+
+## Modifier Detection
+
+### Rushed (×0.6)
+**Trigger words**: desperately, frantically, racing, emergency, now, immediately
+
+**Example**: "She frantically dressed and ran out"
+- dress: 5 × 0.6 = 3 minutes
+- run: 4 × 0.6 = 2 minutes
+
+### Fast (×0.75)
+**Trigger words**: quickly, hurriedly, briskly, swiftly, hastily
+
+**Example**: "He quickly ate breakfast"
+- eat: 10 × 0.75 = 8 minutes (round to 8)
+
+### Normal (×1.0)
+**Trigger words**: [none needed—default]
+
+**Example**: "She ate breakfast"
+- eat: 10 × 1.0 = 10 minutes
+
+### Relaxed (×1.25)
+**Trigger words**: leisurely, comfortably, casually, at ease, unhurried
+
+**Example**: "They enjoyed a leisurely breakfast"
+- eat: 10 × 1.25 = 13 minutes (round to 13)
+
+### Slow (×1.5)
+**Trigger words**: slowly, carefully, cautiously, deliberately, hesitantly
+
+**Example**: "She slowly climbed the wall, testing each handhold"
+- climb: 9 × 1.5 = 14 minutes (round to 14)
+
+### Thorough (×2.0)
+**Trigger words**: thoroughly, meticulously, exhaustively, comprehensively, completely
+
+**Example**: "He thoroughly searched the room"
+- explore: 18 × 2.0 = 36 minutes
+
+---
+
+## Condition Modifiers
+
+These stack with manner modifiers when applicable.
+
+### Physical Conditions
+
+| Condition | Modifier | Notes |
+|-----------|----------|-------|
+| Injured | ×1.25 to ×2.0 | Depends on severity |
+| Exhausted | ×1.5 | Fatigue slows everything |
+| Well-rested | ×0.9 | Slight efficiency boost |
+| Encumbered | ×1.25 | Carrying heavy load |
+
+### Environmental Conditions
+
+| Condition | Modifier | Notes |
+|-----------|----------|-------|
+| Dark | ×1.5 | Poor visibility |
+| Rain/weather | ×1.25 | Adverse conditions |
+| Familiar area | ×0.9 | Know the territory |
+| Unfamiliar area | ×1.25 | Unknown terrain |
+| Crowded | ×1.25 | Navigating people |
+
+### Skill/Expertise
+
+| Condition | Modifier | Notes |
+|-----------|----------|-------|
+| Expert | ×0.75 | Highly skilled at task |
+| Novice | ×1.5 | Learning, unfamiliar |
+| Tools available | ×0.9 | Proper equipment |
+| Improvising | ×1.25 | Making do |
+
+---
+
+## Stacking Modifiers
+
+When multiple modifiers apply, multiply them together.
+
+**Example**: Injured character carefully climbing in the dark
+- Base: climb (9 min)
+- Injured: ×1.5
+- Carefully (slow): ×1.5
+- Dark: ×1.5
+- Total: 9 × 1.5 × 1.5 × 1.5 = 30 minutes
+
+**Example**: Expert quickly repairing with proper tools
+- Base: repair (20 min)
+- Expert: ×0.75
+- Quickly (fast): ×0.75
+- Tools: ×0.9
+- Total: 20 × 0.75 × 0.75 × 0.9 = 10 minutes
+
+---
+
+## Rounding Rules
+
+- Round to nearest whole minute
+- Minimum duration: 1 minute
+- Round 0.5 up
+
+---
+
+## Common Combinations
+
+| Situation | Combined Modifier |
+|-----------|-------------------|
+| Panicked novice | rushed (×0.6) × novice (×1.5) = ×0.9 |
+| Expert rushing | fast (×0.75) × expert (×0.75) = ×0.56 |
+| Injured but thorough | thorough (×2.0) × injured (×1.5) = ×3.0 |
+| Relaxed expert | relaxed (×1.25) × expert (×0.75) = ×0.94 |
+
+---
+
+## Judgment Calls
+
+Not everything fits neatly. Use these guidelines:
+
+- **When in doubt**, use normal (×1.0)
+- **Multiple minor factors** combine to one level (several small things = ×1.25)
+- **Extreme situations** can exceed ×2.0 total
+- **Narrative priority**: If time matters to the story, track carefully. If not, estimate.
+
+---
+
+# Compound Activity Calculations
+
+How to handle multiple actions in a single scene.
+
+---
+
+## Parallel Activities
+
+Actions happening **at the same time**.
+
+### Rule
+Use the **longest** duration as the base.
+
+### Formula
+```
+time = max(duration1, duration2, ...) × modifier
+```
+
+### Examples
+
+**"She ate breakfast while reading the newspaper"**
+- eat: 10 min
+- read: 15 min
+- Result: max(10, 15) = 15 minutes
+
+**"He walked through the market, chatting with vendors"**
+- walk: 10 min
+- chat: 15 min
+- Result: max(10, 15) = 15 minutes
+
+**"She meditated while the tea brewed"**
+- meditate: 12 min
+- brew: 18 min
+- Result: max(12, 18) = 18 minutes
+
+---
+
+## Sequential Activities
+
+Actions happening **one after another**.
+
+### Rule
+**Add** all durations together.
+
+### Formula
+```
+time = (duration1 + duration2 + ...) × modifier
+```
+
+### Examples
+
+**"She bathed, dressed, and ate breakfast"**
+- bathe: 15 min
+- dress: 5 min
+- eat: 10 min
+- Result: 15 + 5 + 10 = 30 minutes
+
+**"He cooked dinner, then they ate together"**
+- cook: 20 min
+- eat: 10 min
+- Result: 20 + 10 = 30 minutes
+
+**"They walked to the tavern and ordered drinks"**
+- walk: 10 min
+- drink: 3 min
+- Result: 10 + 3 = 13 minutes
+
+---
+
+## Mixed Activities
+
+Some parallel, some sequential.
+
+### Rule
+Group parallel activities first, then add sequential groups.
+
+### Examples
+
+**"She cooked while humming, then served and ate with her family"**
+- Group 1 (parallel): cook (20) + sing (8) = max(20, 8) = 20 min
+- Group 2 (parallel): eat (10) + chat (15) = max(10, 15) = 15 min
+- Total (sequential): 20 + 15 = 35 minutes
+
+**"He trained in the yard, then bathed and dressed for dinner"**
+- Group 1: train = 35 min
+- Group 2 (sequential): bathe (15) + dress (5) = 20 min
+- Total: 35 + 20 = 55 minutes
+
+---
+
+## Extended Scene Calculations
+
+### Morning Routine Example
+```
+Wake up and stretch: minor (1) + groom (7) = 8 min [sequential]
+Bathe and dress: bathe (15) + dress (5) = 20 min [sequential]
+Cook and eat breakfast: cook (20) + eat (10) = 30 min [sequential]
+Read news while drinking tea: read (15) + drink (3) = 15 min [parallel]
+
+Total morning: 8 + 20 + 30 + 15 = 73 minutes (~1 hour 13 min)
+```
+
+### Combat Encounter Example
+```
+Sneak to position: sneak (6)
+Fight breaks out: battle (10)
+Escape pursuit: escape (7)
+Hide and recover: sneak (6) + meditate (12) = 12 min [parallel]
+
+Total encounter: 6 + 10 + 7 + 12 = 35 minutes
+```
+
+### Social Evening Example
+```
+Walk to tavern: walk (10)
+Order drinks and chat: drinkalcohol (30) + chat (15) = 30 min [parallel]
+Listen to performer: perform (25) + listenmusic (8) = 25 min [parallel]
+Walk home: walk (10)
+
+Total evening: 10 + 30 + 25 + 10 = 75 minutes (~1 hour 15 min)
+```
+
+---
+
+## Interruptible Activities
+
+Some actions can be paused and resumed.
+
+### Can Interrupt
+- Reading (pick up where left off)
+- Studying (continue later)
+- Crafting projects (stages)
+- Conversations (pause and return)
+
+### Cannot Interrupt
+- Combat (must resolve)
+- Rituals (start over if broken)
+- Cooking (food spoils/burns)
+- Performances (audience leaves)
+
+### Interrupted Activity Time
+- Time spent = time actually elapsed
+- Remaining time = base duration - time spent
+- May need restart penalty for some activities
+
+---
+
+## Travel Time
+
+Travel calculations use base movement + distance.
+
+### Short Distance (same building/area)
+- walk: 10 min base covers "around the block"
+- Adjust for actual described distance
+
+### Medium Distance (across town)
+- walk: 30-60 min
+- ride: 15-30 min
+- Consider route, obstacles
+
+### Long Distance (between locations)
+- Requires journey calculation
+- Consider terrain, weather, rest stops
+
+---
+
+## Quick Estimation
+
+When exact calculation isn't needed:
+
+| Scene Type | Typical Duration |
+|------------|------------------|
+| Brief interaction | 5-15 min |
+| Standard conversation | 15-30 min |
+| Meal | 20-40 min |
+| Combat encounter | 10-20 min |
+| Shopping trip | 30-60 min |
+| Training session | 30-45 min |
+| Full evening activity | 60-120 min |
+
+---
+
+# Scene Transitions & Time Skips
+
+## Scene Breaks
+
+When cutting between scenes without accounting for time:
+
+### Same Location, Moments Later
+- Default: 5-15 minutes
+- Use when: "A few moments later..."
+
+### Different Location, Same Day
+- Default: 30 minutes - 2 hours
+- Accounts for travel time + transition
+
+### Next Day
+- Specify time: "The next morning at 8 AM..."
+- Don't use generic "the next day" - give specific time
+
+### Later That Week/Month
+- Always specify: "Three days later..." or "A week passed..."
+- Consider what happened off-screen
+
+---
+
+## "Meanwhile" Scenes
+
+When showing parallel events:
+
+### Method
+Run concurrent timelines separately, then sync when paths converge.
+
+### Example
+```
+PC Timeline:
+├─ 2:00 PM: Arrives at tavern
+├─ 2:15 PM: Orders drink
+└─ 2:30 PM: NPC enters
+
+NPC Timeline:
+├─ 2:00 PM: Receives message
+├─ 2:15 PM: Travels to tavern
+└─ 2:30 PM: Enters tavern (timelines merge)
+```
+
+---
+
+## Integration with OUTPUT_STRUCTURE
+
+### Timestamp Advancement Procedure
+
+1. **Extract activities** from drafted response
+2. **Look up base durations** from Activity Durations section
+3. **Apply modifiers** from Time Modifiers section
+4. **Calculate compound activities** using Compound Activity rules
+5. **Sum total elapsed time**
+6. **Add to previous timestamp**
+7. **Update location** if changed
+8. **Format new timestamp**: [Weekday, Month Day, Year - HH:MM AM/PM, Location]
+
+### Example Calculation
+
+**Previous timestamp:** Friday, March 15, 2024 - 2:30 PM - The Dusty Rose Tavern
+
+**Scene activities:**
+- Brief conversation (talk: 10 min)
+- Drinking ale (drink: 3 min) [parallel with conversation]
+- Walking to market (walk: 10 min)
+
+**Calculation:**
+- Conversation + drink: max(10, 3) = 10 min [parallel]
+- Walk: 10 min [sequential]
+- Total: 10 + 10 = 20 minutes
+
+**New timestamp:** Friday, March 15, 2024 - 2:50 PM - The Market District
+
+---
+
+## Custom Activities
+
+Add your story-specific activities here as needed:
+
+### [Activity Name]
+**Base Duration:** [Minutes]
+**Modifiers:** [What affects it]
+**Notes:** [Special considerations]
+
+---
+
+## Quick Reference
+
+### Most Common Activities
+| Activity | Base Time |
+|----------|-----------|
+| Brief conversation | 10 min |
+| Full conversation | 15 min |
+| Quick meal | 10 min |
+| Walk (short) | 10 min |
+| Combat | 8-10 min |
+| Rest break | 15 min |
+
+### Most Common Modifiers
+| Modifier | Multiplier |
+|----------|------------|
+| Rushed | ×0.6 |
+| Fast | ×0.75 |
+| Normal | ×1.0 |
+| Slow | ×1.5 |
+
+### Remember
+- Parallel = use longest
+- Sequential = add together
+- Round to whole minutes
+- Minimum 1 minute
