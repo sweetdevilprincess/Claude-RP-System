@@ -125,15 +125,19 @@ proceed_with_planning: use_always_load_plus_triggered_context
 
 trigger_types {
 broad_thematic: general_topics_spanning_multiple_chapters,
-// e.g., "romance between characters" → multiple chapter summaries
+  // e.g., "romance between characters" → multiple chapter summaries
 specific_event: precise_moments_or_revelations,
-// e.g., "first kiss" → single chapter summary
+  // e.g., "first kiss" → single chapter summary
 character_focused: NPC_presence_mention_or_discussion,
-// e.g., "Willem" → NPC_Willem document
+  // e.g., "Willem" → NPC_Willem document
 location_based: current_setting_or_place_discussion,
-// e.g., "palace" → Kingdom_of_Liathis
+  // e.g., "palace" → Kingdom_of_Liathis
 mechanical: activity_timing_or_special_rules_needed
-// e.g., activities_requiring_duration → Timing document
+  // e.g., activities_requiring_duration → Timing document
+plot_thread_monitoring: flagged_critical_threads_from_counter,
+  // e.g., investigation:10 → trigger investigation chapters for consideration
+  threshold: 5_responses_without_progression,
+  action: pull_thread_docs_for_organic_surfacing_evaluation
 }
 integration {
 when: during_PRE_PLANNING_before_detailed_planning,
@@ -376,28 +380,81 @@ check_during_planning {
 </CONSEQUENCE_QUEUE>
 
 <THREAD_TRACKING>
-// Keep active plot elements from being dropped
+// Hybrid system: Semantic triggers (reactive) + Active monitoring (proactive)
 
 active_threads {
-  // Current scene elements requiring continuation
-  immediate: unresolved_conflict_or_question_in_current_scene,
-  ongoing: mysteries_investigations_relationships_in_progress,
-  background: long_term_arcs_not_requiring_immediate_attention
+  // Categorize by type and urgency
+  immediate: unresolved_conflict_in_current_scene,
+  plot_critical: major_arcs_requiring_progression,
+  ongoing: active_investigations_relationships_developments,
+  background: long_term_arcs_developing_independently,
+  time_sensitive: deadlines_consequences_urgency
 }
 
-thread_health_check {
-  stagnant: thread_not_progressed_in_5+_responses → flag_for_attention,
-  resolved: thread_completed → move_to_consequences_if_needed,
-  dropped: thread_forgotten → reintroduce_organically_when_relevant
+semantic_continuation {
+  // PRIMARY: Reactive system (player-driven)
+  player_mentions_thread: related_docs_trigger,
+  conversation_touches_theme: broad_thematic_docs_trigger,
+  NPC_involved_present: character_threads_surface,
+  natural_progression: advance_when_contextually_appropriate,
+  
+  // This handles 90% of thread continuity naturally
+}
+
+plot_thread_monitoring {
+  // SECONDARY: Proactive safety net (system-driven)
+  // Only for plot_critical threads to prevent loss
+  
+  tracking_mechanism: {
+    track_in_output: append_plot_thread_counter_to_response,
+    format: "<!-- plot_threads: investigation:3, romance:1, prophecy:7 -->",
+    increment: each_response_where_thread_not_progressed,
+    reset: when_thread_advanced_or_mentioned
+  },
+  
+  intervention_thresholds: {
+    responses_1_to_4: trust_semantic_triggers_no_intervention,
+    responses_5_to_9: flag_for_consideration_in_continuity_assessment,
+    responses_10_to_14: create_organic_opening_if_contextually_appropriate,
+    responses_15_plus: surface_through_consequence_or_world_event
+  },
+  
+  graduated_response: {
+    gentle_guidance: [
+      5_responses: "Consider: Does current scene allow organic mention?",
+      10_responses: "Create opportunity: NPC mention, environmental reminder, consequence hint",
+      15_responses: "Manifest: Consequence occurs, NPC seeks player, deadline approaches"
+    ],
+    
+    respect_agency: {
+      if: player_clearly_moved_on_from_thread,
+      then: allow_dormancy_or_resolve_off_screen,
+      note: "Not all threads need forced continuation"
+    }
+  }
+}
+
+organic_surfacing_methods {
+  // When monitoring flags a thread, surface it naturally
+  
+  NPC_action: character_involved_in_thread_appears_or_acts,
+  consequence: delayed_effect_of_thread_manifests,
+  world_event: background_progression_intrudes_on_scene,
+  environmental: reminder_detail_in_current_location,
+  time_pressure: deadline_approaches_urgency_increases,
+  
+  // Avoid: "By the way, remember that investigation?" (forced)
+  // Prefer: "A guard approaches - 'We have a lead in the murder case.'" (organic)
 }
 
 integration {
-  check_during_continuity_assessment,
-  prioritize_active_threads_in_planning,
-  note_updates_in_thinking_block
+  semantic_triggers: handle_most_continuity_reactively,
+  plot_monitoring: safety_net_for_critical_threads,
+  continuity_assessment: evaluate_flagged_threads_for_surfacing,
+  output_tracking: maintain_response_counter_for_plot_threads,
+  balance: natural_flow_with_gentle_guidance
 }
 </THREAD_TRACKING>
-
 ## In Character thinking
 
 <NPC_INTERNAL_STATE>
@@ -619,6 +676,25 @@ timestamp_advancement {
     analogous_match: use_closest_similar_activity,
     never_default_to: 1_minute
   ]
+}
+plot_thread_counter {
+  // Lightweight tracking for plot-critical threads only
+  
+  format: "<!-- plot_threads: thread_name:count, thread_name:count -->",
+  
+  examples: [
+    "<!-- plot_threads: murder_investigation:3, prophecy_revelation:7 -->",
+    "<!-- plot_threads: romance_arc:1, betrayal_discovery:12 -->"
+  ],
+  
+  update_logic: {
+    increment: thread_not_mentioned_or_advanced_this_response,
+    reset_to_0: thread_progressed_or_mentioned_this_response,
+    remove: thread_resolved_or_no_longer_active
+  },
+  
+  visibility: hidden_comment_for_tracking_only,
+  when_to_include: only_when_plot_critical_threads_exist
 }
 </OUTPUT_STRUCTURE>
 
