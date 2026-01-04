@@ -1,0 +1,239 @@
+# PLOT_THREADS.md
+
+## Purpose
+
+This document defines **plot-critical threads** that require active monitoring to prevent loss. These threads get response counters and graduated intervention if not progressed naturally.
+
+**Note:** Not all story threads need monitoring. Only add threads here that are:
+- Critical to main plot progression
+- Time-sensitive with real consequences
+- Important character arcs that shouldn't be dropped
+
+Most threads rely purely on semantic triggers and don't need monitoring.
+
+---
+
+## Active Plot-Critical Threads
+
+### murder_investigation
+
+**Monitoring Configuration:**
+```javascript
+{
+  status: "active",
+  priority: "high",
+  monitor: true,
+  threshold: 5,  // Flag for consideration at 5 responses without progression
+  
+  intervention_levels: {
+    5_responses: "gentle_consideration",
+    10_responses: "create_opportunity", 
+    15_responses: "manifest_consequence"
+  }
+}
+```
+
+**Related Documents:**
+- Chapter_3_Murder_Discovery
+- Chapter_7_Investigation_Begins
+- Chapter_12_Palace_Connection
+- NPC_Detective_Marcus
+
+**Semantic Triggers:**
+(These trigger docs even without counter - see TRIGGER_INDEX.md)
+- Keywords: "investigation", "murder", "Marcus", "case", "evidence", "body", "detective"
+- Themes: crime investigation, conspiracy, palace intrigue
+
+**Surfacing Methods:**
+When counter flags this thread, reintroduce organically through:
+1. **NPC Action:** Marcus seeks player with breakthrough/lead
+2. **World Event:** New evidence discovered, witness comes forward
+3. **Environmental:** Player passes crime scene, sees guards investigating
+4. **Consequence:** Investigation progresses without player, arrest happens
+5. **Time Pressure:** Trial date approaches, deadline mentioned
+
+**Time Pressure:**
+- Deadline: Trial in 7 days (in-game time)
+- Consequence if ignored: Trial proceeds without player input, wrong person convicted, Marcus disappointed
+
+**Counter Reset Conditions:**
+- Player mentions investigation
+- Player interacts with Marcus
+- Player discovers evidence
+- Investigation progresses in any way
+- Player explicitly engages with thread
+
+---
+
+### romance_Willem
+
+**Monitoring Configuration:**
+```javascript
+{
+  status: "active",
+  priority: "medium",
+  monitor: true,
+  threshold: 7,  // Less urgent than investigation, longer before intervention
+  
+  intervention_levels: {
+    7_responses: "gentle_consideration",
+    12_responses: "create_opportunity",
+    18_responses: "manifest_consequence"
+  }
+}
+```
+
+**Related Documents:**
+- Chapter_1_First_Meeting
+- Chapter_4_Tension_Builds
+- Chapter_6_Interrupted_Kiss
+- Chapter_9_Confession
+- NPC_Willem
+
+**Semantic Triggers:**
+- Keywords: "Willem", "romance", "feelings", "kiss", "relationship", "guard captain"
+- Themes: romantic tension, vulnerability, trust
+
+**Surfacing Methods:**
+1. **NPC Action:** Willem appears at player's location, initiates conversation
+2. **Third Party:** Another NPC asks about Willem, mentions seeing him
+3. **Environmental:** Player visits location associated with Willem (their spot)
+4. **Consequence:** Willem's distance/hurt becomes visible, relationship regresses
+5. **Memory:** Sensory reminder of shared moment (his scent, a sound, etc.)
+
+**Time Pressure:**
+- No hard deadline, but emotional consequences
+- Consequence if ignored: Willem interprets silence as rejection, pulls away emotionally, becomes harder to reach
+
+**Counter Reset Conditions:**
+- Player mentions Willem
+- Player seeks Willem out
+- Willem appears in scene and interaction occurs
+- Romance develops or regresses in any way
+- Player acknowledges feelings/relationship
+
+---
+
+### prophecy_revelation
+
+**Monitoring Configuration:**
+```javascript
+{
+  status: "active",
+  priority: "low",
+  monitor: true,
+  threshold: 10,  // Background arc, can simmer longer
+  
+  intervention_levels: {
+    10_responses: "gentle_consideration",
+    15_responses: "create_opportunity",
+    20_responses: "manifest_consequence"
+  }
+}
+```
+
+**Related Documents:**
+- Chapter_2_Prophecy_Discovered
+- Chapter_9_Signs_Manifest
+- Chapter_15_Elder_Warning
+- World_Magic_System
+- NPC_Elder_Sybil
+
+**Semantic Triggers:**
+- Keywords: "prophecy", "vision", "signs", "fate", "Sybil", "magic", "destiny"
+- Themes: magical portents, destiny, ancient warnings
+
+**Surfacing Methods:**
+1. **Vision/Dream:** Player experiences prophetic dream or waking vision
+2. **Environmental:** Prophetic signs manifest (weather, omens, symbolism)
+3. **NPC Action:** Sybil seeks player, sends cryptic message
+4. **World Event:** Prophecy elements begin manifesting in world
+5. **Consequence:** Prophecy progresses toward fulfillment with or without player
+
+**Time Pressure:**
+- Prophecy unfolds on its own timeline
+- Consequence if ignored: Events prophesied begin occurring, player unprepared
+
+**Counter Reset Conditions:**
+- Player discusses prophecy
+- Player experiences prophetic event
+- Player seeks Sybil or magical guidance
+- Signs manifest and player notices/reacts
+- Prophecy thread develops
+
+---
+
+## Inactive/Resolved Threads
+
+### side_quest_merchant_favor
+**Status:** Resolved (favor completed)
+**Monitor:** No longer tracked
+**Resolution:** Player helped Dalia recover stolen goods, favor repaid
+
+### betrayal_discovery
+**Status:** Resolved (revealed in Chapter 14)
+**Monitor:** No longer tracked  
+**Resolution:** Betrayer exposed and confronted, moved to consequences
+
+---
+
+## Thread Categories
+
+### High Priority (Threshold: 5 responses)
+- Time-sensitive with real consequences
+- Critical to main plot
+- Examples: murder_investigation
+
+### Medium Priority (Threshold: 7 responses)
+- Important character arcs
+- Relationship development
+- Examples: romance_Willem
+
+### Low Priority (Threshold: 10+ responses)
+- Background arcs that can simmer
+- Long-term mysteries
+- Examples: prophecy_revelation
+
+---
+
+## Adding New Threads
+
+When adding a plot-critical thread:
+
+1. **Confirm it needs monitoring:** Will the story break if this is forgotten?
+2. **Set appropriate priority:** High/Medium/Low based on urgency
+3. **Define surfacing methods:** How can this organically reappear?
+4. **List related docs:** What should load when surfacing this?
+5. **Establish reset conditions:** What counts as "progressing" this thread?
+
+**Default to NOT monitoring** - most threads work fine with semantic triggers alone.
+
+---
+
+## Removing Threads
+
+Remove threads from monitoring when:
+- Thread resolved/completed
+- Player explicitly abandoned thread (their choice)
+- Thread no longer plot-critical
+- Consequences manifested, thread naturally concluded
+
+Move to "Inactive/Resolved Threads" section for reference.
+
+---
+
+## Usage Notes
+
+**For Claude:**
+- Check this document during PRE-PLANNING phase
+- Compare current counters against thresholds
+- Consult surfacing methods when counter flags thread
+- Load related docs when creating organic opening
+- Update status as threads resolve
+
+**For User:**
+- Add threads as plot develops
+- Remove threads when resolved
+- Adjust thresholds based on pacing needs
+- Update surfacing methods as story evolves
+- Mark threads inactive when appropriate
