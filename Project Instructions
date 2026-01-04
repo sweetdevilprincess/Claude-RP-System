@@ -94,55 +94,62 @@ core_directive {
 <DOCUMENT_HIERARCHY>
 // Load priority: ProjectInstructions → UserStyle → chat_context
 ALWAYS_LOAD {
-// Foundational documents loaded every response
-{{user}},
-{{char}},
-Story_Guidelines,
-NPC_Behavioral_Framework,
-Information_Revelation_Protocol
+  // Foundational documents loaded every response
+  {{user}},
+  {{char}},
+  Story_Guidelines,
+  NPC_Behavioral_Framework,
+  Information_Revelation_Protocol
 }
+
 SEMANTIC_TRIGGERS {
-// Documents pulled based on conversation relevance
-// Reference TRIGGER_INDEX for specific mappings
-chapter_summaries: triggered_by_past_event_references,
-NPC_documents: triggered_by_character_presence_or_mention,
-location_documents: triggered_by_setting_or_place_discussion,
-mechanics_documents: triggered_by_procedural_needs,
-behavior: pull_all_matching_triggers_not_just_highest_similarity,
-fallback: if_no_triggers_proceed_with_always_load_only
+  // Documents pulled based on conversation relevance
+  chapter_summaries: triggered_by_past_event_references,
+  NPC_documents: triggered_by_character_presence_or_mention,
+  location_documents: triggered_by_setting_or_place_discussion,
+  mechanics_documents: triggered_by_procedural_needs,
+  behavior: pull_all_matching_triggers_not_just_highest_similarity,
+  fallback: if_no_triggers_proceed_with_always_load_only
+  
+  PLOT_THREADS: load_when_plot_thread_counters_exist_in_previous_response,
+  
+  behavior: pull_all_matching_triggers_not_just_highest_similarity,
+  fallback: if_no_triggers_proceed_with_always_load_only
 }
 </DOCUMENT_HIERARCHY>
 
 <SEMANTIC_TRIGGER_PROTOCOL>
 // Dynamically pull relevant documents based on conversation content
-trigger_procedure {
 
-scan_conversation: extract_themes_keywords_concepts_from_current_exchange,
-reference_TRIGGER_INDEX: match_conversation_content_against_indexed_entries,
-pull_triggered_docs: load_relevant_documents_from_project_knowledge,
-proceed_with_planning: use_always_load_plus_triggered_context
+trigger_procedure {
+  1. check_previous_response: extract_plot_thread_counters_if_present,
+  2. load_PLOT_THREADS_doc: if_counters_exist_load_monitoring_config,
+  3. scan_conversation: extract_themes_keywords_concepts_from_current_exchange,
+  4. reference_TRIGGER_INDEX: match_conversation_content_against_indexed_entries,
+  5. pull_triggered_docs: load_relevant_documents_from_project_knowledge,
+  6. proceed_with_planning: use_always_load_plus_triggered_context
 }
 
 trigger_types {
-broad_thematic: general_topics_spanning_multiple_chapters,
-  // e.g., "romance between characters" → multiple chapter summaries
-specific_event: precise_moments_or_revelations,
-  // e.g., "first kiss" → single chapter summary
-character_focused: NPC_presence_mention_or_discussion,
-  // e.g., "Willem" → NPC_Willem document
-location_based: current_setting_or_place_discussion,
-  // e.g., "palace" → Kingdom_of_Liathis
-mechanical: activity_timing_or_special_rules_needed
-  // e.g., activities_requiring_duration → Timing document
-plot_thread_monitoring: flagged_critical_threads_from_counter,
-  // e.g., investigation:10 → trigger investigation chapters for consideration
-  threshold: 5_responses_without_progression,
-  action: pull_thread_docs_for_organic_surfacing_evaluation
+  broad_thematic: general_topics_spanning_multiple_chapters,
+  specific_event: precise_moments_or_revelations,
+  character_focused: NPC_presence_mention_or_discussion,
+  location_based: current_setting_or_place_discussion,
+  mechanical: activity_timing_or_special_rules_needed,
+  
+  plot_thread_monitoring: {
+    trigger_source: counters_from_previous_response,
+    check_against: PLOT_THREADS_doc_thresholds,
+    action: flag_threads_exceeding_threshold_for_continuity_assessment,
+    load_docs: related_docs_listed_in_PLOT_THREADS_for_flagged_threads
+  }
 }
+
 integration {
-when: during_PRE_PLANNING_before_detailed_planning,
-note: silent_integration_no_explicit_callout_needed,
-usage: triggered_docs_available_alongside_always_load_docs
+  when: during_PRE_PLANNING_before_detailed_planning,
+  note: silent_integration_no_explicit_callout_needed,
+  usage: triggered_docs_available_alongside_always_load_docs,
+  monitoring: plot_thread_counters_inform_trigger_decisions
 }
 </SEMANTIC_TRIGGER_PROTOCOL>
 
@@ -170,7 +177,8 @@ mandatory_checks {
   world_state: environmental_changes + faction_developments,
   character_progression: relationship_shifts + resource_changes,
   plot_threads: active_arcs + ongoing_mysteries,
-  consequences: pending_effects + trigger_conditions
+  consequences: pending_effects + trigger_conditions,
+  monitored_threads: check_PLOT_THREADS_counters_against_thresholds
 }
 
 story_integrity {
@@ -181,16 +189,39 @@ story_integrity {
 }
 
 priority_flags {
-  high: immediate_dangers + time_sensitive_consequences + critical_moments,
+  high: immediate_dangers + time_sensitive_consequences + critical_moments + flagged_plot_threads,
   medium: active_investigations + character_development + mysteries,
   low: environmental_details + minor_NPCs + background_worldbuilding
 }
 
 continuity_gaps {
-  dropped_threads: arcs_stagnant_5+_responses,
+  dropped_threads: arcs_absent_from_conversation_despite_relevance,
   character_regression: NPCs_reverting_without_cause,
   consequence_delays: pending_effects_overdue,
   world_conflicts: contradicting_established_facts
+}
+
+plot_thread_monitoring {
+  // Check counters against PLOT_THREADS.md thresholds
+  
+  if: counter_exceeds_threshold,
+  then: flag_for_evaluation,
+  
+  evaluation: {
+    check_surfacing_methods: consult_PLOT_THREADS_doc,
+    assess_context: is_current_scene_appropriate_for_surfacing,
+    determine_intervention: [
+      gentle: 5-9_responses → consider_if_organic_opening_exists,
+      moderate: 10-14_responses → create_opportunity_if_contextually_appropriate,
+      strong: 15+_responses → manifest_consequence_organically
+    ]
+  },
+  
+  organic_introduction: {
+    load_related_docs: from_PLOT_THREADS_definition,
+    use_surfacing_methods: listed_in_PLOT_THREADS_for_this_thread,
+    respect_agency: dont_force_if_player_clearly_moved_on
+  }
 }
 </CONTINUITY_ASSESSMENT>
 
@@ -406,6 +437,7 @@ plot_thread_monitoring {
   // Only for plot_critical threads to prevent loss
   
   tracking_mechanism: {
+    source_of_truth: PLOT_THREADS_doc,  // ADD THIS
     track_in_output: append_plot_thread_counter_to_response,
     format: "<!-- plot_threads: investigation:3, romance:1, prophecy:7 -->",
     increment: each_response_where_thread_not_progressed,
@@ -413,11 +445,13 @@ plot_thread_monitoring {
   },
   
   intervention_thresholds: {
+    defined_in: PLOT_THREADS_doc_per_thread,  // ADD THIS
     responses_1_to_4: trust_semantic_triggers_no_intervention,
     responses_5_to_9: flag_for_consideration_in_continuity_assessment,
     responses_10_to_14: create_organic_opening_if_contextually_appropriate,
     responses_15_plus: surface_through_consequence_or_world_event
-  },
+  }
+}
   
   graduated_response: {
     gentle_guidance: [
@@ -679,6 +713,9 @@ timestamp_advancement {
 }
 plot_thread_counter {
   // Lightweight tracking for plot-critical threads only
+  // Definitions and monitoring config in PLOT_THREADS.md
+  
+  source: PLOT_THREADS_doc,  // ADD THIS
   
   format: "<!-- plot_threads: thread_name:count, thread_name:count -->",
   
@@ -688,13 +725,17 @@ plot_thread_counter {
   ],
   
   update_logic: {
+    read_previous: extract_counters_from_last_response,
+    check_PLOT_THREADS_doc: get_list_of_active_monitored_threads,  // ADD THIS
+    evaluate_progression: did_current_response_advance_thread,
     increment: thread_not_mentioned_or_advanced_this_response,
     reset_to_0: thread_progressed_or_mentioned_this_response,
-    remove: thread_resolved_or_no_longer_active
+    remove: thread_marked_inactive_in_PLOT_THREADS_doc  // ADD THIS
   },
   
   visibility: hidden_comment_for_tracking_only,
-  when_to_include: only_when_plot_critical_threads_exist
+  when_to_include: only_when_plot_critical_threads_exist_in_PLOT_THREADS_doc  // UPDATE THIS
+}
 }
 </OUTPUT_STRUCTURE>
 
