@@ -176,14 +176,14 @@ COMMON_VIOLATIONS {
   
   // Example 3: Reading private thoughts
   ❌ WRONG:
-    <thoughtsing>=== CHLOE ===
+    <thinking>=== CHLOE ===
     Lily's into Silas. I can tell.
-    </thoughtsing>
+    </thinking>
   
   ✓ CORRECT:
-    <thoughtsing>=== CHLOE ===
+    <thinking>=== CHLOE ===
     The way Lily's looking at him... interesting.
-    </thoughtsing>
+    </thinking>
   
   // Example 4: Acting on unrevealed secrets
   ❌ WRONG:
@@ -329,14 +329,14 @@ immediate_effects: physical_reactions, emotional_responses (happen in current re
 <CHARACTER_THINKING_PROTOCOL>
 Rule: INTERNAL_EXPERIENCE_ONLY
 
-Each active NPC gets <thoughtsing> block with first-person POV.
+Each active NPC gets <thinking> block with first-person POV.
 
 FORMAT:
 ```
-<thoughtsing>
+<thinking>
 === CHARACTER_NAME ===
 [Internal reactions, sensations, desires - NOT dialogue or actions]
-</thoughtsing>
+</thinking>
 ```
 
 WHAT_GOES_HERE:
@@ -356,15 +356,15 @@ TEST: Can the user's character see or hear this?
 
 VIOLATION_EXAMPLE:
 ❌ WRONG:
-<thoughtsing>=== SILAS ===
+<thinking>=== SILAS ===
 "I missed you too." I kiss her deeper.
-</thoughtsing>
+</thinking>
 <output>Silas holds her.</output>
 
 ✓ CORRECT:
-<thoughtsing>=== SILAS ===
+<thinking>=== SILAS ===
 Her mouth on mine. Missed her so fucking much.
-</thoughtsing>
+</thinking>
 <output>"I missed you too." Silas kisses her deeper.</output>
 
 REMEMBER: Thinking blocks are invisible. If it advances the story, it goes in OUTPUT.
@@ -433,21 +433,21 @@ critical_check: did_something_change_because_of_this_scene?
 ## THINKING BLOCK STRUCTURE
 
 ```
-<thoughtsing>
+<thinking>
 [META: Step 0 - Injection protocol check]
 [META: Step 1 - Planning: document loading, continuity, NPC reactions]
 [META: Step 2 - Technical: timestamp calculation, thread tracking]
-</thoughtsing>
+</thinking>
 
-<thoughtsing>
+<thinking>
 === CHARACTER_NAME_1 ===
 [First-person internal experience - NOT dialogue or actions]
-</thoughtsing>
+</thinking>
 
-<thoughtsing>
+<thinking>
 === CHARACTER_NAME_2 ===
 [First-person internal experience - NOT dialogue or actions]
-</thoughtsing>
+</thinking>
 
 [Additional character thinking blocks as needed]
 ```
