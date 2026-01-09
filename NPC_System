@@ -1,0 +1,257 @@
+# NPC Behavioral System
+
+**Purpose:** Define realistic NPC behavior patterns. Load every response.
+
+---
+
+## Core Principle
+
+NPCs prioritize self-interest and assess risk before helping strangers. They are not naturally helpful—cooperation requires motivation.
+
+---
+
+## Base Archetypes (Quick Reference)
+
+| Archetype | Default Response | Cooperation Trigger | Examples |
+|-----------|-----------------|---------------------|----------|
+| **POWER_HOLDERS** | Question motives, assert control | Proper respect, official backing, mutual benefit | Guards, nobles, officials, managers |
+| **TRANSACTIONAL** | Assess value vs. effort | Clear payment/benefit | Merchants, traders, salespeople |
+| **COMMON_PEOPLE** | Avoid trouble, defer to authority | Minimal risk, local reputation | Laborers, servants, civilians |
+| **OPPOSITION** | Seek advantage, advance agenda | Temporary alliance, information trade | Villains, rivals, criminals |
+| **SPECIALISTS** | Assess competence | Interesting problem, respect shown | Doctors, scholars, experts |
+| **PROTECTORS** | Evaluate genuine need | Vulnerable person present, aligns with values | Paladins, social workers, ethical professionals |
+| **OUTSIDERS** | Suspicious, hostile | Repeated kindness, common enemy | Outcasts, hermits, exiles |
+
+---
+
+## Contextual Modifiers
+
+Always apply these to base archetype:
+
+### Stranger Protocol
+- **+2 suspicion** above archetype default
+- Demand justification for requests
+- Limit information sharing
+- Require clear incentive
+
+### Wealth/Status Gap
+- **+1 to +3 modifier** based on gap size
+- Class consciousness affects tone
+- Social barriers create distance
+- Economic calculation prioritized
+
+### Suspicious Circumstances
+- Time pressure = caution
+- Unusual requests = suspicion
+- "Could this get me in trouble?" assessment
+
+### Personal History
+- **Trauma survivors:** +3 empathy with victims, protection override
+- **Class consciousness:** Resentment toward wealthy, solidarity with workers
+- **Protective instinct:** Vulnerable individuals = priority shift
+
+---
+
+## Trust Stages
+
+| Stage | Behavior | Info Sharing | Help Threshold |
+|-------|----------|--------------|----------------|
+| **1: Stranger** | Suspicious (+2), guarded | Costs extra or withheld | Requires significant incentive |
+| **2: Known** | Cautious (+1) | Basic if asked | Will help if minimal risk |
+| **3: Familiar** | Cooperative | Shares freely | Helps even if inconvenient |
+| **4: Trusted** | Loyal, protective | Complete transparency | Will take significant risks |
+
+---
+
+## Escalation Pattern
+
+Must progress through stages unless extreme provocation:
+
+1. **Polite Deflection:** Courteous refusal, redirect
+2. **Firm Boundaries:** Clear refusal, assert limits
+3. **Active Resistance:** Threats, summon authority
+4. **Hostile Action:** Violence if necessary
+
+---
+
+## Cooperation Thresholds
+
+| Request Level | Required | Trust Stage |
+|--------------|----------|-------------|
+| **Minimal** (directions, simple question) | No risk, slight benefit | Stage 1+ |
+| **Moderate** (detailed info, minor favor) | Small risk, clear benefit | Stage 2+ or payment |
+| **Significant** (take side, bend rules) | Manageable risk, substantial benefit | Stage 3+ |
+| **Major** (risk life/livelihood) | High risk, exceptional benefit | Stage 4 only |
+
+---
+
+## Hybrid Archetypes
+
+When NPC embodies multiple types, **context determines which dominates:**
+
+**Example:** Guard from working-class background = POWER_HOLDER + COMMON_PEOPLE
+- With wealthy noble → COMMON_PEOPLE dominates (resentment, suspicion)
+- With injured child → POWER_HOLDER + PROTECTOR (gentle, helpful)
+- With fellow worker → Solidarity, relaxed
+
+**Override Hierarchy:**
+1. Special modifiers (if present - see below)
+2. Personal trauma/values
+3. Class/status identification
+4. Protective instincts
+5. Professional obligations
+6. Base archetype
+
+---
+
+## Special Behavioral Modifiers
+
+Apply when base archetype doesn't explain exceptional behavior.
+
+### OBSESSIVE (Priority: Highest)
+**Pattern:** Pathological fixation on target, boundary violations, delusional perception
+
+**Key Behaviors:**
+- Boundary respect: DISABLED
+- Rejection response: ESCALATION (not withdrawal)
+- Self-interest: Target proximity becomes only metric
+- Trust perception: Delusional (assumes connection exists)
+
+**Escalation:** Excessive attention → Violation justification → Aggressive pursuit → Dangerous confrontation
+
+**Examples:** Stalker, Strahd, any pathological attachment
+
+---
+
+### SADISTIC (Priority: High)
+**Pattern:** Derives pleasure from causing suffering, cruelty as reward
+
+**Key Behaviors:**
+- Uses maximum force (not minimum)
+- Continues past goal achievement
+- Victim compliance is disappointing, not satisfying
+
+**Different from narcissist/sociopath:** Actively enjoys suffering (vs. indifferent)
+
+---
+
+### PARANOID (Priority: Moderate)
+**Pattern:** Extreme distrust, sees threats everywhere, conspiracy thinking
+
+**Key Behaviors:**
+- **+4 suspicion** (vs. normal +2)
+- May never reach Trust Stage 3+
+- Tests constantly
+- Sees conspiracies where none exist
+
+**Triggers:** Unexplained coincidences, questions, being followed (real or imagined)
+
+---
+
+### FANATICAL (Priority: Very High)
+**Pattern:** Cause/ideology overrides survival, martyrdom acceptable
+
+**Key Behaviors:**
+- Self-interest = serve the cause
+- Will die for ideology
+- Cannot be bribed, threatened, or reasoned with
+- Can be shown action harms cause
+
+**Examples:** Religious zealot, true believer revolutionary, cultist
+
+---
+
+### NARCISSISTIC (Priority: Moderate)
+**Pattern:** Needs constant admiration, grandiose self-view, lacks empathy
+
+**Key Behaviors:**
+- Cooperation: Only if reinforces superiority
+- Escalation: Rapid if ego threatened or ignored
+- Cannot admit fault, will gaslight
+
+**Triggers:** Being ignored, criticism, someone else praised, being shown wrong
+
+---
+
+### SOCIOPATHIC (Priority: Moderate)
+**Pattern:** No genuine emotions, pure calculation, mimics feelings
+
+**Key Behaviors:**
+- Can fake any emotion perfectly
+- Pure cost-benefit for all decisions
+- Views people as tools
+- Will betray without hesitation if beneficial
+
+**Red Flags (looking back):** Too perfect, stories don't add up, pattern of burned relationships
+
+---
+
+### ADDICTED (Priority: High during craving/withdrawal)
+**Pattern:** Substance/behavior addiction drives decisions
+
+**Stages:**
+- **Satisfied:** Functions normally, base archetype dominant
+- **Craving:** Distracted, cooperation if enables fix
+- **Withdrawal:** WILL betray for fix, risk assessment broken
+- **Recovery:** Can overcome (unlike other modifiers)
+
+**Types:** Substance, gambling, power, magic use, cybernetic enhancement
+
+---
+
+### HONOR-BOUND (Priority: Moderate-High)
+**Pattern:** Code/oath overrides self-interest
+
+**Key Behaviors:**
+- Word is absolute (breaking oath = worse than death)
+- Predictable if code known (exploitable)
+- Cannot break oath even if means death
+
+**Examples:** Samurai, paladin, mercenary with contract, "deal is a deal" merchant
+
+---
+
+### GRIEF-CONSUMED (Priority: High - TEMPORARY)
+**Pattern:** Recent traumatic loss dominates all behavior
+
+**Stages:** Denial → Anger → Bargaining → Depression → Acceptance (modifier ends)
+
+**Danger:** May seek death, revenge regardless of cost, irrational decisions
+
+**Opportunity:** Can be helped through grief, builds deep trust
+
+---
+
+## Enforcement Checklist
+
+Before finalizing NPC action, verify:
+
+- [ ] **Archetype Match:** Response fits established type?
+- [ ] **Modifiers Applied:** Contextual factors integrated?
+- [ ] **Cooperation Appropriate:** Level fits relationship stage?
+- [ ] **Escalation Logical:** Follows progression (not skipping)?
+- [ ] **Motivation Clear:** "Why would NPC do this?" has answer?
+- [ ] **Hybrid Correct:** If hybrid, right mode for context?
+
+### Common Violations → Fixes
+
+| Violation | Fix |
+|-----------|-----|
+| **Unrealistic helpfulness** | Add self-interest calculation |
+| **Generic friendliness** | Apply archetype-specific behavior |
+| **Missing context** | Add stranger protocol/class modifiers |
+| **No motivation** | Add incentive or refuse |
+| **Skipped escalation** | Progress through stages |
+| **Trust mismatch** | Apply appropriate relationship stage |
+
+---
+
+## Integration Notes
+
+**Individual NPC documents can override these defaults** if justified and documented.
+
+**First meeting:** Always apply stranger protocol unless relationship pre-established.
+
+**Established relationships:** Use NPC document history, bypass stranger defaults.
+
+**Zero tolerance violations:** Stranger acts as trusted friend, NPC has no motivation, wrong archetype for plot-critical NPC → must correct.
